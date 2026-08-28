@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Booster 🎨</title>
+  <style>
+    body {
+      background: #e8f5e9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background 0.5s ease;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 90%;
+      position: relative;
+    }
+    h2 { color: #2e7d32; margin-bottom: 10px; }
+    p { color: #666; font-size: 14px; margin-bottom: 20px; }
+    
+    .btn-container { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+      margin-bottom: 20px; 
+    }
+    .mood-btn { 
+      padding: 12px; 
+      border: none; 
+      border-radius: 12px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      color: white; 
+      font-size: 15px;
+      transition: transform 0.2s; 
+    }
+    .mood-btn:active { transform: scale(0.97); }
+    
+    #msg { 
+      margin-top: 15px; 
+      font-size: 15px; 
+      color: #444; 
+      min-height: 45px;
+      margin-bottom: 15px; 
+    }
+    
+    /* Okay button style */
+    .ok-btn {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none; 
+      margin: 0 auto;
+      box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+      transition: transform 0.2s;
+    }
+    .ok-btn:active { transform: scale(0.95); }
+
+    /* Modal Popup Overlay for Happy animation */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 1000;
+    }
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-box {
+      background: linear-gradient(135deg, #fff9c4, #ffecb3);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      transform: scale(0.5);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      max-width: 320px;
+      width: 90%;
+    }
+    .modal-overlay.active .modal-box {
+      transform: scale(1);
+    }
+    .modal-box h1 { color: #f57f17; margin-bottom: 10px; font-size: 24px; }
+    .modal-box p { color: #555; font-size: 16px; margin-bottom: 20px; }
+    .close-modal {
+      background: #f57f17;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body id="mainBody">
+
+  <div class="card">
+    <h2>Select Your Mood</h2>
+    <p>Apne aaj ke mood ke hisaab se theme badlein:</p>
+    
+    <div class="btn-container">
+      <button class="mood-btn" style="background:#ffb74d;" onclick="setMood('happy')">Happy 😊</button>
+      <button class="mood-btn" style="background:#64b5f6;" onclick="setMood('calm')">Calm 🌊</button>
+      <button class="mood-btn" style="background:#e57373;" onclick="setMood('energetic')">Energetic ⚡</button>
+      <button class="mood-btn" style="background:#ba68c8;" onclick="setMood('cozy')">Cozy ☕</button>
+    </div>
+    
+    <div id="msg">Choose a mood above to transform the vibe!</div>
+    
+    <!-- Sirf Happy select hone par yeh button dikhega -->
+    <button class="ok-btn" id="okBtn" onclick="showHappyPopup()">Okay, ab theek hai 👍</button>
+  </div>
+
+  <!-- Animated Popup Modal for Happy -->
+  <div class="modal-overlay" id="happyModal">
+    <div class="modal-box">
+      <h1>Okay, ab theek hai! 😊✨</h1>
+      <p>Aapki hasi aise hi barkarar rahe, have a wonderful day ahead!</p>
+      <button class="close-modal" onclick="closeHappyPopup()">Close ✖</button>
+    </div>
+  </div>
+
+  <script>
+    function setMood(type) {
+      const body = document.getElementById('mainBody');
+      const msg = document.getElementById('msg');
+      const okBtn = document.getElementById('okBtn');
+      
+      if(type === 'happy') {
+        body.style.background = '#fffde7';
+        msg.innerText = "Aaj ka din sunshine aur bright smiles se bhara rahe! ☀️";
+        okBtn.style.display = 'block'; // Happy par button dikhega
+      } else {
+        okBtn.style.display = 'none'; // Baaki sab par chup jayega
+        
+        if(type === 'calm') {
+          body.style.background = '#e3f2fd';
+          msg.innerText = "Deep breath lo, sab kuch bohot peaceful hai. 🌊";
+        } else if(type === 'energetic') {
+          body.style.background = '#ffebee';
+          msg.innerText = "Full energy ke sath apne goals ko chase karo! ⚡";
+        } else if(type === 'cozy') {
+          body.style.background = '#f3e5f5';
+          msg.innerText = "Aaram se baitho, coffee piyo aur relax karo. ☕";
+        }
+      }
+    }
+
+    function showHappyPopup() {
+      document.getElementById('happyModal').classList.add('active');
+    }
+
+    function closeHappyPopup() {
+      document.getElementById('happyModal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>

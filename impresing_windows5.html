@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmic Love Vault 🌌</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #0f0c1b 0%, #05020a 100%);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Starry Background */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Main Cosmic Card */
+    .cosmic-card {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(138, 43, 226, 0.25);
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .planet-icon {
+      font-size: 55px;
+      margin-bottom: 15px;
+      animation: floatPlanet 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatPlanet {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    h2 {
+      font-size: 22px;
+      color: #ff9ebb;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #e2d9f3;
+      margin-bottom: 25px;
+    }
+
+    .cosmic-btn {
+      background: linear-gradient(135deg, #a17fe0, #59359a);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(161, 127, 224, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .cosmic-btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-option {
+      flex: 1;
+      padding: 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-option:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Starry Sky Effect -->
+  <div class="stars" id="starsContainer"></div>
+
+  <div class="cosmic-card">
+
+    <!-- Screen 1: Welcome -->
+    <div class="screen active" id="screen1">
+      <div class="planet-icon">🪐</div>
+      <h2>Cosmic Transmission</h2>
+      <p>Kahin door galaxy se ek special message aaya hai sirf tumhare liye... Kya read karna chahogi?</p>
+      <button class="cosmic-btn" onclick="nextScreen(2)">Open Portal ✨</button>
+    </div>
+
+    <!-- Screen 2: Compliment -->
+    <div class="screen" id="screen2">
+      <div class="planet-icon">⭐</div>
+      <h2>Starlight Secret</h2>
+      <p>Is poori kayanat me hazaron taare hain, par meri nazar me sabse bright aur pyari tumhi ho.</p>
+      <button class="cosmic-btn" onclick="nextScreen(3)">Next Secret 🌌</button>
+    </div>
+
+    <!-- Screen 3: Question -->
+    <div class="screen" id="screen3">
+      <div class="planet-icon">💖</div>
+      <h2>A Special Promise</h2>
+      <p>Kya tum hamesha mere is haseen safar ka ek khoobsurat hissa rahogi?</p>
+      <div class="btn-group">
+        <button class="btn-option" onclick="nextScreen(4)">Hamesha! 🥰</button>
+        <button class="btn-option" id="noBtn" onclick="dodgeNo()">Sochungi 🤔</button>
+      </div>
+    </div>
+
+    <!-- Screen 4: Success -->
+    <div class="screen" id="screen4">
+      <div class="planet-icon">🎉</div>
+      <h2>Mission Successful!</h2>
+      <p>Yayyy! 🚀 Ab hum dono ki yeh kahani is galaxy ki sabse khoobsurat kahani ban chuki hai! ❤️✨</p>
+    </div>
+
+  </div>
+
+  <script>
+    // Generate Random Glowing Stars
+    const container = document.getElementById('starsContainer');
+    for (let i = 0; i < 40; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.width = Math.random() * 3 + 1 + 'px';
+      star.style.height = star.style.width;
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+      container.appendChild(star);
+    }
+
+    // Screen Navigation
+    function nextScreen(num) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen' + num).classList.add('active');
+    }
+
+    // Dodging 'Sochungi' Button
+    const noTexts = ["Sochungi 🤔", "Aisa mat kaho 🥺", "Option hi nahi hai, Hamesha bolo! ❤️", "Please maan jao na! 🥹"];
+    let noIndex = 0;
+    function dodgeNo() {
+      noIndex = (noIndex + 1) % noTexts.length;
+      document.getElementById('noBtn').innerText = noTexts[noIndex];
+    }
+  </script>
+</body>
+</html>

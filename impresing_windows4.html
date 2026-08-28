@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Love.sh</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    body {
+      background: #05050a;
+      color: #00ff66;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background Matrix Rain */
+    #matrixCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    /* Terminal Container */
+    .terminal-box {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 420px;
+      background: rgba(10, 15, 12, 0.85);
+      border: 1px solid #00ff66;
+      border-radius: 8px;
+      box-shadow: 0 0 25px rgba(0, 255, 102, 0.25);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 380px;
+    }
+
+    .terminal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #00ff66;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      color: #00ff66;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .t-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #00ff66;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .output-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e0f8ff;
+      white-space: pre-line;
+      margin-bottom: 15px;
+    }
+
+    /* Buttons inside Terminal */
+    .terminal-btn {
+      background: transparent;
+      border: 1px solid #ff4081;
+      color: #ff4081;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      margin-top: 10px;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .terminal-btn:hover {
+      background: #ff4081;
+      color: white;
+      box-shadow: 0 0 15px rgba(255, 64, 129, 0.6);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-row button {
+      flex: 1;
+    }
+
+    .heart-highlight {
+      color: #ff4081;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="matrixCanvas"></canvas>
+
+  <div class="terminal-box">
+    <div class="terminal-header">
+      <span>root@love-system:~#</span>
+      <div class="terminal-dots">
+        <div class="t-dot" style="background:#ff5f56;"></div>
+        <div class="t-dot" style="background:#ffbd2e;"></div>
+        <div class="t-dot" style="background:#27c93f;"></div>
+      </div>
+    </div>
+
+    <!-- Screen 1: Boot Sequence -->
+    <div class="screen active" id="screen1">
+      <div class="output-text" id="bootText">Initializing secure connection...</div>
+      <button class="terminal-btn" onclick="nextScreen(2)">Execute Protocol &gt;</button>
+    </div>
+
+    <!-- Screen 2: System Scan -->
+    <div class="screen" id="screen2">
+      <div class="output-text">Scanning heart rate database...<br><span class="heart-highlight">Target Found:</span> 1 Special Person detected in the network. ❤️</div>
+      <button class="terminal-btn" onclick="nextScreen(3)">Decrypt Message &gt;</button>
+    </div>
+
+    <!-- Screen 3: Confession -->
+    <div class="screen" id="screen3">
+      <div class="output-text">Pata nahi kaise, par jab bhi tumse baat hoti hai, system ke saare error fix ho jaate hain. Tum meri life ki sabse khoobsurat line ho. ❤️</div>
+      <button class="terminal-btn" onclick="nextScreen(4)">Run Proposal.exe &gt;</button>
+    </div>
+
+    <!-- Screen 4: Final Question -->
+    <div class="screen" id="screen4">
+      <div class="output-text"><span class="heart-highlight">QUESTION:</span><br>Kya tum meri permanent girlfriend banogi?</div>
+      <div class="btn-row">
+        <button class="terminal-btn" style="border-color:#27c93f; color:#27c93f;" onclick="nextScreen(5)">YES! 💖</button>
+        <button class="terminal-btn" id="noBtn" onclick="dodgeNo()">SHAYAD NAHI</button>
+      </div>
+    </div>
+
+    <!-- Screen 5: Success -->
+    <div class="screen" id="screen5">
+      <div class="output-text" style="color: #ff4081; text-align: center; font-size: 16px; font-weight: bold;"><br><br>ACCESS GRANTED! 💕<br><br>Ab se tum hi meri favourite notification ho! ✨</div>
+    </div>
+  </div>
+
+  <script>
+    // Matrix Rain Effect
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = '01LOVE💖SYSTEM_OK';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(5, 5, 10, 0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00ff66';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 50);
+
+    // Screen Navigation
+    function nextScreen(num) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen' + num).classList.add('active');
+    }
+
+    // Dodging "No" button text changer
+    const noTexts = ["SHAYAD NAHI", "Soch lo ache se 🥺", "Error: Invalid Choice", "Koshish mat karo, YES bolo! ❤️"];
+    let noIndex = 0;
+    function dodgeNo() {
+      noIndex = (noIndex + 1) % noTexts.length;
+      document.getElementById('noBtn').innerText = noTexts[noIndex];
+    }
+  </script>
+</body>
+</html>

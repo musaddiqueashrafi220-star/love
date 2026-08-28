@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Fortune Cookie 🥠</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(255, 152, 0, 0.2);
+      max-width: 380px;
+      width: 90%;
+    }
+    .fortune-icon { font-size: 55px; margin-bottom: 10px; cursor: pointer; transition: transform 0.2s; }
+    .fortune-icon:active { transform: scale(0.9); }
+    h2 { color: #e65100; margin-bottom: 15px; }
+    .box { background: #fffde7; border: 1px dashed #ffd54f; padding: 20px; border-radius: 12px; margin-bottom: 20px; font-size: 15px; color: #5d4037; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+    
+    button { background: #ff9800; color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(255,152,0,0.3); width: 100%; transition: all 0.3s; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="fortune-icon" onclick="getNextFortune()">🥠</div>
+    <h2>Daily Fortune Peek</h2>
+    <div class="box" id="fortuneText">Tap the cookie or button to read your fortunes! ✨</div>
+    
+    <button id="actionBtn" onclick="getNextFortune()">Open Fortune 🔮</button>
+  </div>
+
+  <script>
+    const fortunes = [
+      "Aaj ka din aapke liye kuch naya aur behtareen lekar aane wala hai! 🌟",
+      "Aapki mehnat rang laane wali hai, bas positive rahiye. 💪",
+      "Kisi purane dost se ek acchi khabar mil sakti hai aaj. 🌸",
+      "Aapke andar wo saari taakat hai jo aapko apne sapne pure karne ke liye chahiye. 🚀",
+      "Chhoti-chhoti baaton me khushi dhoondhna hi asal sukoon hai. ☕"
+    ];
+
+    let currentIndex = 0;
+
+    function getNextFortune() {
+      if (currentIndex < fortunes.length) {
+        document.getElementById('fortuneText').innerText = fortunes[currentIndex];
+        currentIndex++;
+        
+        // Jaise hi aakhiri message aayega, button change hokar Allah Hafiz ban jayega
+        if (currentIndex === fortunes.length) {
+          const btn = document.getElementById('actionBtn');
+          btn.innerText = "Allah Hafiz 🤲";
+          btn.style.background = "#00897b";
+          btn.onclick = function() {
+            document.getElementById('fortuneText').innerText = "Allah Hafiz! Apna dhyan rakhiyega aur haste rahiyega! ✨🤲";
+            btn.style.display = 'none'; // Aakhiri click ke baad button gayab ho jayega
+          };
+        }
+      }
+    }
+  </script>
+</body>
+</html>

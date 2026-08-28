@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmic Love Vault 💖</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #2e1a47, #4a154b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+    .card {
+      background: #381d54;
+      padding: 30px;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      max-width: 380px;
+      width: 90%;
+      border: 1px solid #6b359c;
+    }
+    h2 { color: #ff80bf; margin-bottom: 10px; }
+    p { color: #d8b4e2; font-size: 13px; margin-bottom: 20px; }
+    
+    .vault-box {
+      font-size: 60px;
+      background: #4c2573;
+      width: 110px;
+      height: 110px;
+      line-height: 110px;
+      border-radius: 50%;
+      margin: 0 auto 20px auto;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    input[type="password"] {
+      width: 80%;
+      padding: 10px 15px;
+      border-radius: 15px;
+      border: 1px solid #9c4dcc;
+      background: #28133d;
+      color: white;
+      outline: none;
+      font-size: 14px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    input[type="password"]::placeholder { color: #b19cd9; }
+
+    .note-container {
+      background: #28133d;
+      border: 1px dashed #9c4dcc;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #ffd1dc;
+      line-height: 1.4;
+    }
+
+    button {
+      background: #c71585;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(199, 21, 133, 0.4);
+      width: 100%;
+      transition: background 0.3s;
+    }
+    button:hover { background: #db7093; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Cosmic Love Vault 💖</h2>
+    <p>Vault kholne ke liye password enter karein! (Hint:what is your name)</p>
+    
+    <div class="vault-box" id="vaultIcon">🔒</div>
+    
+    <input type="password" id="passInput" placeholder="Enter Password..." autocomplete="off">
+    
+    <div class="note-container" id="noteDisplay">
+      Vault locked hai. Password daal kar unlock button dabayein! ✨
+    </div>
+    
+    <button id="actionBtn" onclick="unlockVault()">Unlock Vault 🗝️</button>
+  </div>
+
+  <script>
+    const notes = [
+      "Aapki muskaan is duniya ki sabse khoobsurat cheez hai! 🌸",
+      "Har choti baat me khushi dhoondhna hi aapka sabse pyara andaaz hai. 💖",
+      "Aapke hone se yeh din aur bhi roshan ho jata hai! ✨",
+      "Aap hamesha haste rahein, yahi dua hai. 🌟",
+      "Aapki positivity sabke din ko behtareen bana deti hai! 💫"
+    ];
+
+    const correctPassword = "1234"; // Yahan aap apna pasandeeda password rakh sakte hain
+    let isUnlocked = false;
+    let noteIndex = 0;
+
+    function unlockVault() {
+      const passInput = document.getElementById('passInput').value.trim();
+      const vaultIcon = document.getElementById('vaultIcon');
+      const noteDisplay = document.getElementById('noteDisplay');
+      const btn = document.getElementById('actionBtn');
+
+      if (!isUnlocked) {
+        if (passInput === correctPassword) {
+          isUnlocked = true;
+          vaultIcon.innerText = "🔓";
+          passInput.style.display = 'none';
+          document.getElementById('passInput').style.display = 'none';
+          noteDisplay.innerText = "Vault successfully unlock ho gaya hai! Pehla note padhein: " + notes[noteIndex];
+          noteIndex++;
+          btn.innerText = "Next Secret Note 💌";
+        } else {
+          noteDisplay.innerText = "Galat password! Dobara koshish karein. ❌";
+        }
+      } else {
+        if (noteIndex < notes.length) {
+          noteDisplay.innerText = notes[noteIndex];
+          noteIndex++;
+          
+          if (noteIndex === notes.length) {
+            btn.innerText = "Allah Hafiz 🤲";
+            btn.style.background = "#00897b";
+            btn.onclick = function() {
+              vaultIcon.innerText = "💖";
+              noteDisplay.innerText = "Allah Hafiz! Apna dhyan rakhiyega aur hamesha haste rahiyega! ✨";
+              btn.style.display = 'none';
+            };
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

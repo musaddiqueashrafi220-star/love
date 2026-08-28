@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Special Story ❤️</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1f0a24 0%, #0b0210 100%);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background Animation - Floating Hearts & Glow */
+    .bg-animation {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      color: rgba(255, 105, 180, 0.6);
+      font-size: 24px;
+      animation: floatUp 4s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(105vh) scale(0.6) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.4) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Multiple Windows / Cards Container */
+    .window-card {
+      position: absolute;
+      width: 340px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10;
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .window-card.active {
+      display: flex;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Window Header Bar */
+    .window-header {
+      background: linear-gradient(90deg, #ff4081, #ff758c);
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Window Content Body */
+    .window-body {
+      padding: 24px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .window-body h2 {
+      font-size: 20px;
+      color: #ff80ab;
+      margin-bottom: 12px;
+    }
+
+    .window-body p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #fce4ec;
+      margin-bottom: 20px;
+    }
+
+    /* Buttons */
+    .btn-next {
+      background: linear-gradient(135deg, #ff4081, #ff758c);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .btn-next:active {
+      transform: scale(0.95);
+    }
+
+    .proposal-btns {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-yes {
+      flex: 1;
+      background: #ff4081;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-no {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Floating Animation Elements -->
+  <div class="bg-animation" id="bgAnimation"></div>
+
+  <!-- Window 1: Welcome -->
+  <div class="window-card active" id="win1" style="top: 20%; left: calc(50% - 170px);">
+    <div class="window-header">
+      <span>Message_01.exe</span>
+      <div class="window-dots"><div class="dot"></div><div class="dot"></div></div>
+    </div>
+    <div class="window-body">
+      <h2>Hey There! ❤️</h2>
+      <p>Ek choti si notification hai tumhare liye... Kya tum ise dekhna chahogi?</p>
+      <button class="btn-next" onclick="openWindow(2, 'win2')">Open It ✨</button>
+    </div>
+  </div>
+
+  <!-- Window 2: Cute Compliment -->
+  <div class="window-card" id="win2" style="top: 28%; left: calc(50% - 150px);">
+    <div class="window-header">
+      <span>Secret_Note.txt</span>
+      <div class="window-dots"><div class="dot"></div><div class="dot"></div></div>
+    </div>
+    <div class="window-body">
+      <h2>Soch Rha Tha... 💭</h2>
+      <p>Jab bhi tumhara message aata hai, mera din waise hi acha ho jata hai. Tum bohot special ho!</p>
+      <button class="btn-next" onclick="openWindow(3, 'win3')">Next 💌</button>
+    </div>
+  </div>
+
+  <!-- Window 3: Proposal Window -->
+  <div class="window-card" id="win3" style="top: 24%; left: calc(50% - 160px);">
+    <div class="window-header">
+      <span>Important_Question.exe</span>
+      <div class="window-dots"><div class="dot"></div><div class="dot"></div></div>
+    </div>
+    <div class="window-body">
+      <h2>The Big Question 🌹</h2>
+      <p>Kya tum meri special friend / partner banogi? Har pal ke liye?</p>
+      <div class="proposal-btns">
+        <button class="btn-yes" onclick="openWindow(4, 'win4')">YES! 🥰</button>
+        <button class="btn-no" id="noBtn" onmouseover="dodgeButton()" onclick="dodgeButton()">Sochungi 🤔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Window 4: Success Celebration Window -->
+  <div class="window-card" id="win4" style="top: 26%; left: calc(50% - 170px);">
+    <div class="window-header">
+      <span>Success.pkg</span>
+      <div class="window-dots"><div class="dot"></div><div class="dot"></div></div>
+    </div>
+    <div class="window-body">
+      <h2>Yayyy! 🎉💖</h2>
+      <p>Mujhe pehle hi pata tha tum 'Yes' hi bologe! You just made me the happiest person ever! ✨</p>
+    </div>
+  </div>
+
+  <script>
+    // Background Floating Animation Generator
+    const bgAnimation = document.getElementById('bgAnimation');
+    const symbols = ['❤️', '✨', '💖', '⭐', '🌸'];
+    
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      p.style.animationDelay = Math.random() * 3 + 's';
+      bgAnimation.appendChild(p);
+    }
+
+    // Function to open next window and give it a slight random offset effect
+    function openWindow(num, winId) {
+      document.getElementById(winId).classList.add('active');
+      
+      // Bring current window slightly to random position for cool multi-window effect
+      const win = document.getElementById(winId);
+      const randomX = (Math.random() - 0.5) * 40;
+      const randomY = (Math.random() - 0.5) * 40;
+      win.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    // Dodging 'No' button effect
+    function dodgeButton() {
+      const btn = document.getElementById('noBtn');
+      const x = (Math.random() - 0.5) * 120;
+      const y = (Math.random() - 0.5) * 60;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+  </script>
+</body>
+</html>

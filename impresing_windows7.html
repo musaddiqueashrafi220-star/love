@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Smiles & Compliments ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0f7fa 0%, #e1bee7 50%, #fce4ec 100%);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Floating Background Shapes */
+    .bg-bubbles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUpBubble linear infinite;
+      opacity: 0.5;
+    }
+
+    @keyframes floatUpBubble {
+      0% { transform: translateY(105vh) scale(0.8); opacity: 0; }
+      50% { opacity: 0.7; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Main Card */
+    .card {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 30px;
+      padding: 35px 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 150, 136, 0.15);
+    }
+
+    .icon-header {
+      font-size: 60px;
+      margin-bottom: 15px;
+      animation: bounceIcon 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes bounceIcon {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #00796b;
+      margin-bottom: 20px;
+    }
+
+    /* Compliment Display Box */
+    .message-box {
+      background: #ffffff;
+      border: 2px solid #b2dfdb;
+      border-radius: 18px;
+      padding: 25px 20px;
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #004d40;
+      margin-bottom: 25px;
+      width: 100%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+      transition: all 0.3s ease;
+    }
+
+    .generate-btn {
+      background: linear-gradient(135deg, #26a69a, #00796b);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(38, 166, 154, 0.4);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .generate-btn:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Background Emojis -->
+  <div class="bg-bubbles" id="bgBubbles"></div>
+
+  <div class="card">
+    <div class="icon-header">🎁</div>
+    <h2>Daily Smiles Generator</h2>
+    
+    <div class="message-box" id="complimentText">
+      Button par click karo aur ek pyari si baat padho jo tumhare chehre par muskan le aayegi! ✨
+    </div>
+
+    <button class="generate-btn" onclick="showRandomCompliment()">Get a Smile 💖</button>
+  </div>
+
+  <script>
+    // Background floating elements generator
+    const bubbleContainer = document.getElementById('bgBubbles');
+    const icons = ['🌟', '💖', '🍀', '🌸', '☕', '✨', '🎈'];
+    for (let i = 0; i < 15; i++) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      b.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+      b.style.left = Math.random() * 100 + 'vw';
+      b.style.animationDuration = (Math.random() * 4 + 3) + 's';
+      b.style.animationDelay = Math.random() * 3 + 's';
+      bubbleContainer.appendChild(b);
+    }
+
+    // List of sweet and motivating compliments
+    const compliments = [
+      "Tumhari positive energy aas-paas ke poore environment ko ekdum khushnuma bana deti hai! 🌟",
+      "Kisi ke chehre par bina kisi wajah ke muskan laane ki tumhari superpower kamaal ki hai. 🌸",
+      "Tumhari mehnat aur dedication dekh kar lagta hai ki tum life me jo chaho wo hasil kar sakti ho! 💪✨",
+      "Chaahe kitni bhi mushkil situation ho, tumhara calm rehkar cheezein handle karna sach me inspiring hai. 🍀",
+      "Tumhari baatein sunkar hamesha ek alag hi sukoon milta hai. Aise hi hamesha hasti raho! 💖",
+      "Is duniya me tum jaisa unique aur genuine insaan hona hi apne aap me ek gift hai. 🎈"
+    ];
+
+    function showRandomCompliment() {
+      const randomIndex = Math.floor(Math.random() * compliments.length);
+      const box = document.getElementById('complimentText');
+      
+      // Simple fade effect animation style
+      box.style.opacity = '0';
+      setTimeout(() => {
+        box.innerText = compliments[randomIndex];
+        box.style.opacity = '1';
+      }, 150);
+    }
+  </script>
+</body>
+</html>

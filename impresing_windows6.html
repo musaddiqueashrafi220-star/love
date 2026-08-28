@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweet Memory Jar 🫙✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffebee 0%, #fce4ec 50%, #f3e5f5 100%);
+      color: #4a4a4a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Floating Background Elements */
+    .bg-elements {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .float-item {
+      position: absolute;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+      30% { opacity: 0.8; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Main Container Card */
+    .jar-container {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 28px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(233, 30, 99, 0.15);
+    }
+
+    .jar-icon {
+      font-size: 65px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      animation: bounceJar 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes bounceJar {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+
+    .jar-icon:active {
+      transform: scale(0.9);
+    }
+
+    h2 {
+      font-size: 22px;
+      color: #d81b60;
+      margin-bottom: 15px;
+    }
+
+    /* Note Card Popup/Box */
+    .note-box {
+      background: #fff9c4;
+      border: 1px dashed #fbc02d;
+      border-radius: 14px;
+      padding: 20px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #5d4037;
+      margin-bottom: 20px;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      position: relative;
+      animation: popNote 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popNote {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .note-counter {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #ec407a, #d81b60);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(236, 64, 122, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .btn-action:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Background Icons -->
+  <div class="bg-elements" id="bgElements"></div>
+
+  <div class="jar-container">
+    <div class="jar-icon" onclick="openNextNote()">🫙</div>
+    <h2>The Sweet Notes Jar</h2>
+    <div class="note-counter" id="noteCounter">Note 1 of 5</div>
+    
+    <div class="note-box" id="noteText">
+      Yh pehla note hai... Tap the jar or button below to read the next sweet little secret! ✨
+    </div>
+
+    <button class="btn-action" id="actionBtn" onclick="openNextNote()">Open Next Note 💌</button>
+  </div>
+
+  <script>
+    // Background Floating Particles
+    const bgContainer = document.getElementById('bgElements');
+    const symbols = ['💖', '✨', '🌸', '⭐', '💌'];
+    for (let i = 0; i < 20; i++) {
+      const el = document.createElement('div');
+      el.className = 'float-item';
+      el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      el.style.animationDelay = Math.random() * 3 + 's';
+      bgContainer.appendChild(el);
+    }
+
+    // Notes Content Array
+    const notes = [
+      "Yh pehla note hai... Tap the jar or button below to read the next sweet little secret! ✨",
+      "Pata hai? Jab bhi tum bina kisi wajah ke muskurati ho, wo poore din ka sabse acha pal ban jata hai. 🌸",
+      "Tumhari baatein aur tumhara hona kisi comforting song ki tarah hai jo mann ko ekdum relax kar deta hai. 🎶",
+      "Life me kuch log aise hote hain jo bina kuch kahe hi sab kuch special bana dete hain... Exactly jaise tum ho! 💖",
+      "Chaahe kuch bhi ho jaaye, hamesha aise hi khush rehna. Tumhari hasi sabse zyada pyari lagti hai! ⭐"
+    ];
+
+    let currentIndex = 0;
+
+    function openNextNote() {
+      currentIndex++;
+      if (currentIndex < notes.length) {
+        document.getElementById('noteText').innerText = notes[currentIndex];
+        document.getElementById('noteCounter').innerText = `Note ${currentIndex + 1} of ${notes.length}`;
+        
+        if (currentIndex === notes.length - 1) {
+          document.getElementById('actionBtn').innerText = "All Notes Unlocked! 🎉";
+        }
+      } else {
+        // Reset or loop back, or show a final sweet prompt
+        currentIndex = 0;
+        document.getElementById('noteText').innerText = notes[currentIndex];
+        document.getElementById('noteCounter').innerText = `Note 1 of ${notes.length}`;
+        document.getElementById('actionBtn').innerText = "Open Next Note 💌";
+      }
+    }
+  </script>
+</body>
+</html>
